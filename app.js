@@ -55,6 +55,27 @@ app.get('/', (req, res) => {
     });
 });
 
+app.post('/add', (req, res) => {
+    const { name, ingredients, directions } = req.body;
+
+    // PG Connect
+    pool.connect((err, client, done) => {
+        if (err) {
+            console.log("Error connecting to DB", err);
+            return res.status(500).send("Error connecting to DB");
+        }
+        console.log("tentou inserir");
+        client.query("INSERT INTO recipes (name, ingredients, directions) VALUES ($1, $2, $3)", [name, ingredients, directions], (err, result) => {
+            done(); // release the client back to the pool
+            if (err) {
+                console.log("Error executing query", err);
+                return res.status(500).send("Error executing query");
+            }
+            res.redirect('/');
+        });
+    });
+});
+
 // Server
 app.listen(3000, function(){
     console.log('Server started on port 3000');
