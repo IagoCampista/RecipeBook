@@ -37,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// Load Recipes
 app.get('/', (req, res) => {
     // PG Connect
     pool.connect((err, client, done) => {
@@ -55,6 +56,7 @@ app.get('/', (req, res) => {
     });
 });
 
+//Insert Recipe
 app.post('/add', (req, res) => {
     const { name, ingredients, directions } = req.body;
 
@@ -64,7 +66,6 @@ app.post('/add', (req, res) => {
             console.log("Error connecting to DB", err);
             return res.status(500).send("Error connecting to DB");
         }
-        console.log("tentou inserir");
         client.query("INSERT INTO recipes (name, ingredients, directions) VALUES ($1, $2, $3)", [name, ingredients, directions], (err, result) => {
             done(); // release the client back to the pool
             if (err) {
@@ -72,6 +73,27 @@ app.post('/add', (req, res) => {
                 return res.status(500).send("Error executing query");
             }
             res.redirect('/');
+        });
+    });
+});
+
+//Delete Recipe
+app.delete('/delete/:id', (req, res) => {
+    const recipeId = parseInt(req.params.id);
+
+    // PG Connect
+    pool.connect((err, client, done) => {
+        if (err) {
+            console.log("Error connecting to DB", err);
+            return res.status(500).send("Error connecting to DB");
+        }
+        client.query("DELETE FROM recipes WHERE id = $1", [recipeId], (err, result) => {
+            done(); // release the client back to the pool
+            if (err) {
+                console.log("Error executing query", err);
+                return res.status(500).send("Error executing query");
+            }
+            res.status(204).send();
         });
     });
 });
