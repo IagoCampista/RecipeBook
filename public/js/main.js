@@ -1,6 +1,5 @@
 $(document).ready(function (){
     $('.delete-recipe').on('click', function() {
-        console.log("cliclou hein");
         const recipeId = $(this).data('id');
         $.ajax({
             url: `/delete/${recipeId}`,
@@ -14,4 +13,12 @@ $(document).ready(function (){
         });
         return false; // Prevent form submission
     });
+
+    $('.edit-recipe').on('click', function() {
+        $('#edit-form-name').val($(this).data('name'));
+        $('#edit-form-ingredients').val($(this).data('ingredients'));
+        $('#edit-form-directions').val($(this).data('directions'));
+        $('#edit-form-id').val($(this).data('id'));
+    });
 });
+

@@ -98,6 +98,34 @@ app.delete('/delete/:id', (req, res) => {
     });
 });
 
+
+// Update Recipe
+app.post('/update', (req, res) => {
+    const recipeId = parseInt(req.body.id);
+    const { name, ingredients, directions } = req.body;
+    
+    if (!Number.isInteger(recipeId)) {
+        return res.status(400).send("Invalid recipe ID" + recipeId);
+    }
+
+    // PG Connect
+    pool.connect((err, client, done) => {
+        if (err) {
+            console.log("Error connecting to DB", err);
+            return res.status(500).send("Error connecting to DB");
+        }
+        client.query("UPDATE recipes SET name=$1, ingredients=$2, directions=$3 WHERE id=$4", [name, ingredients, directions, recipeId], (err, result) => {
+            done(); // release the client back to the pool
+            if (err) {
+                console.log("Error executing query", err);
+                return res.status(500).send("Error executing query");
+            }
+            //res.status(200).send();
+            res.redirect('/');
+        });
+    });
+});
+
 // Server
 app.listen(3000, function(){
     console.log('Server started on port 3000');
