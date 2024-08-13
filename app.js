@@ -9,7 +9,8 @@ const express = require('express'),
 // PostgreSQL connection settings
 const pool = new Pool({
     user: 'recipeadmin',
-    host: 'localhost',
+    //host: 'localhost',
+    host: 'recipebook_db', // Nome do contêiner PostgreSQL
     database: 'recipebookdb',
     password: '1q2w3e4r',
     port: 5432,
