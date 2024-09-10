@@ -28,3 +28,20 @@ docker container run -d -p 5432:5432 --name recipebook_db -e POSTGRES_USER=recip
 
 
 docker run -d -p 8080:80 --name pg_admin_f -e PGADMIN_USER=iagocampista@gmail.com -e PGADMIN_PASSWORD=1q2w3e4r -e PGADMIN_DEFAULT_EMAIL=iagocampista@gmail.com -e PGADMIN_DEFAULT_PASSWORD=1q2w3e4r --network food_network dpage/pgadmin4
+
+
+docker network inspect food_network
+ docker ps -a
+docker ps --filter "publish=5432"
+node app.js   
+node src/app.js    
+node app
+
+sudo kill -9 550 
+
+
+sudo lsof -nP -iTCP -sTCP:LISTEN 
+lsof -i :5432   
+sudo lsof -nP -iTCP -sTCP:LISTEN   
+docker network ls  
+npm start

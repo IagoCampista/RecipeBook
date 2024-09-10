@@ -1,5 +1,7 @@
 {>"layout" /}
 {<body}
+    <h1> Recipe Book </h1>
+    <br />
     <button type="button" class="btn btn-primary btn-block" data-bs-toggle="modal" data-bs-target="#formModal">Add Recipe</button>
     <br />
     {#recipes}
@@ -7,6 +9,7 @@
             <h4> {name}
                 <button class="btn btn-primary " 
                     data-bs-toggle="collapse" 
+                    data-bs-target="#recipe_{id}"
                     href="#recipe_{id}" 
                     aria-expanded="false" 
                     aria-controls="recipe_{id}">
